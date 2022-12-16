@@ -1,0 +1,9 @@
+.hero-section {
+  aspect-ratio: 16/9;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-image: url("./assets/hero_background.svg");
+  height: 100vh;
+}
