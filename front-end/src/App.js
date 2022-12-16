@@ -49,8 +49,17 @@ function App() {
   }
 
   function removeItem(product) {
-    let temp = [...cartItems];
-    setCartItems(temp.filter((item) => item !== product));
+    let temp = [];
+    let flag = true;
+    cartItems.forEach((item) => {
+      if (flag === true && item.id === product.id) {
+        flag = false;
+        console.log("found");
+      } else {
+        temp.push(item);
+      }
+    });
+    setCartItems(temp);
   }
 
   function checkout() {
@@ -61,9 +70,11 @@ function App() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          amount: cartItems.reduce((acc, curr) => {
-            return acc + curr.price;
-          }),
+          amount: cartItems.reduce(
+            (accumulator, currentValue) =>
+              accumulator + parseInt(currentValue.price),
+            0
+          ),
           currency: "USD",
           method: "card",
         }),
