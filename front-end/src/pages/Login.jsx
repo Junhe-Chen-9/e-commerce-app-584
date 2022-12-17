@@ -70,7 +70,10 @@ export default function Login(props) {
           height: "80vh",
         }}
       >
-        <div className="p-5 border shadow rounded w-50">
+        <div
+          className="p-5 border shadow rounded w-50"
+          style={{ minWidth: 400 }}
+        >
           <h1 className="w-100 text-center">Sign In</h1>
           <Form className="py-3" onSubmit={handleSubmit}>
             <Form.Group

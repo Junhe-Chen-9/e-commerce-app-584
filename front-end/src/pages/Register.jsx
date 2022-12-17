@@ -70,9 +70,12 @@ export default function Register(props) {
     >
       <Container
         className="d-flex align-items-center justify-content-center"
-        style={{ height: "80vh" }}
+        style={{ minHeight: "80vh" }}
       >
-        <div className="p-5 border shadow rounded w-50">
+        <div
+          className="p-5 m-5 border shadow rounded w-50"
+          style={{ minWidth: 400 }}
+        >
           <h1 className="w-100 text-center">Register</h1>
           {isRegistered === false ? (
             <Form onSubmit={handleSubmit}>
