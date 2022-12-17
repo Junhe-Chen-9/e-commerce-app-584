@@ -201,7 +201,7 @@ function App() {
     <CookiesProvider>
       <Routes>
         <Route
-          path="/comp584_final_project"
+          path="/e-commerce-app-584"
           element={
             <Dashboard
               key={cartItems}
@@ -219,7 +219,7 @@ function App() {
         >
           <Route index element={<Home lightMode={isLightMode} />} />
           <Route
-            path="/comp584_final_project/outerwear"
+            path="/e-commerce-app-584/outerwear"
             element={
               <Products
                 text="Outerwear"
@@ -230,7 +230,7 @@ function App() {
             }
           />
           <Route
-            path="/comp584_final_project/tops"
+            path="/e-commerce-app-584/tops"
             element={
               <Products
                 text="Tops"
@@ -241,7 +241,7 @@ function App() {
             }
           />
           <Route
-            path="/comp584_final_project/bottoms"
+            path="/e-commerce-app-584/bottoms"
             element={
               <Products
                 text="Bottoms"
@@ -252,7 +252,7 @@ function App() {
             }
           />
           <Route
-            path="/comp584_final_project/accessories"
+            path="/e-commerce-app-584/accessories"
             element={
               <Products
                 text="Accesories"
@@ -263,7 +263,7 @@ function App() {
             }
           />
           <Route
-            path="/comp584_final_project/all"
+            path="/e-commerce-app-584/all"
             element={
               <Products
                 text="All Products"
@@ -274,7 +274,7 @@ function App() {
             }
           />
           <Route
-            path="/comp584_final_project/checkout"
+            path="/e-commerce-app-584/checkout"
             element={
               <Checkout
                 lightMode={isLightMode}
@@ -287,11 +287,11 @@ function App() {
             }
           />
           <Route
-            path="/comp584_final_project/login"
+            path="/e-commerce-app-584/login"
             element={<Login toggleUser={toggleUser} lightMode={isLightMode} />}
           />
           <Route
-            path="/comp584_final_project/register"
+            path="/e-commerce-app-584/register"
             element={<Register lightMode={isLightMode} />}
           />
         </Route>
