@@ -12,7 +12,7 @@ export default function HeroSection(props) {
       </h1>
       <div className="col-7 mx-auto mb-5">
         <div className="gap-2 d-xl-flex d-grid justify-content-xl-center">
-          <Link to={"/comp584_final_project/outerwear"}>
+          <Link to={"/e-commerce-app-584/outerwear"}>
             <Button
               variant={props.lightMode ? "light" : "dark"}
               size="large"
@@ -21,7 +21,7 @@ export default function HeroSection(props) {
               Outerwear
             </Button>
           </Link>
-          <Link to={"/comp584_final_project/tops"}>
+          <Link to={"/e-commerce-app-584/tops"}>
             <Button
               variant={props.lightMode ? "light" : "dark"}
               size="large"
@@ -30,7 +30,7 @@ export default function HeroSection(props) {
               Tops
             </Button>
           </Link>
-          <Link to={"/comp584_final_project/bottoms"}>
+          <Link to={"/e-commerce-app-584/bottoms"}>
             <Button
               variant={props.lightMode ? "light" : "dark"}
               size="large"
@@ -39,7 +39,7 @@ export default function HeroSection(props) {
               Bottoms
             </Button>
           </Link>
-          <Link to={"/comp584_final_project/accessories"}>
+          <Link to={"/e-commerce-app-584/accessories"}>
             <Button
               variant={props.lightMode ? "light" : "dark"}
               size="large"
@@ -48,7 +48,7 @@ export default function HeroSection(props) {
               Accessories
             </Button>
           </Link>
-          <Link to={"/comp584_final_project/all"}>
+          <Link to={"/e-commerce-app-584/all"}>
             <Button
               variant={props.lightMode ? "light" : "dark"}
               size="large"

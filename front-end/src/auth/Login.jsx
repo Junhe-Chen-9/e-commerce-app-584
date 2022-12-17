@@ -18,7 +18,7 @@ const Login = ({ config }) => {
   }
 
   return authState.isAuthenticated ? (
-    <Navigate to={{ pathname: "/comp584_final_project/" }} />
+    <Navigate to={{ pathname: "/e-commerce-app-584/" }} />
   ) : (
     <OktaSignInWidget config={config} onSuccess={onSuccess} onError={onError} />
   );

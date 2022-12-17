@@ -60,7 +60,7 @@ export default function CheckoutForm(props) {
       confirmParams: {
         // Make sure to change this to your payment completion page
 
-        return_url: "https://byronurrutia.github.io/comp584_final_project/",
+        return_url: "https://byronurrutia.github.io/e-commerce-app-584/",
       },
     });
 

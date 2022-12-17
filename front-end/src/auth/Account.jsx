@@ -10,7 +10,7 @@ const Account = () => {
     return <div>Loading ...</div>;
   }
 
-  const handleLogin = async () => history("/comp584_final_project/login");
+  const handleLogin = async () => history("/e-commerce-app-584/login");
 
   const handleLogout = async () => oktaAuth.signOut();
 
