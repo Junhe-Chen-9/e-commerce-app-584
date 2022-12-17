@@ -77,7 +77,7 @@ public class APIController {
         return products;
     }
 
-    @GetMapping("/get")
+    @PostMapping("/get")
     public MyProduct getId(@RequestBody String id) throws StripeException {
         Stripe.apiKey = secretKey;
         Product product = Product.retrieve(id);
@@ -92,7 +92,7 @@ public class APIController {
         return myProduct;
     }
 
-    @GetMapping("/price")
+    @PostMapping("/price")
     public Price getPrice(@RequestBody String id) throws StripeException {
         Stripe.apiKey = secretKey;
         Price price = Price.retrieve(id);

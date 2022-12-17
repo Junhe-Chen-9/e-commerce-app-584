@@ -52,6 +52,7 @@ public class AppUser implements UserDetails {
     }
     public void removeFromCart(CartItem item){
         if(cart.contains(item)){
+            item.setAppUser(null);
             cart.remove(item);
         }
     }

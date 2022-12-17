@@ -54,7 +54,16 @@ public class CartServiceImp implements CartService{
 
     @Override
     public String clear(String username, String stripeId) {
-        // not in used
+        AppUser appUser = appUserService.loadUserByUsername(username);
+        if(appUser == null) return "appuser not exist";
+        Set<CartItem> items = new HashSet<>();
+        for(CartItem i : appUser.getCart()){
+            items.add(i);
+        }
+        for(CartItem item : items){
+            appUser.removeFromCart(item);
+        }
+        appUserRepository.save(appUser);
         return "ok";
     }
 

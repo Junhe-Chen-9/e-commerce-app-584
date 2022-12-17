@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import project.ecommerceapp.dto.CartRequest;
 import project.ecommerceapp.dto.MyProduct;
+import project.ecommerceapp.dto.UpdateCartRequest;
 import project.ecommerceapp.entity.CartItem;
 import project.ecommerceapp.service.AppUserService;
 import project.ecommerceapp.service.CartService;
@@ -45,10 +46,19 @@ public class CartController {
         return cartService.clear(cartRequest.getUsername(), cartRequest.getStripeId());
     }
 
-    @GetMapping("/load")
-    public List<MyProduct> loadCart(@RequestBody String oktaId) throws StripeException {
+    @PostMapping("/updateCart")
+    public String updateCart(@RequestBody UpdateCartRequest updateCartRequest){
+        String username = updateCartRequest.getUserName();
+        String[] stripeIds = updateCartRequest.getStripeIds();
+        for(String s : stripeIds){
+            cartService.addProduct(username,s);
+        }
+        return "we updated the shopping cart";
+    }
+    @PostMapping("/load")
+    public List<MyProduct> loadCart(@RequestBody String username) throws StripeException {
         List<MyProduct> shoppingcart = new ArrayList<>();
-        Set<CartItem> list = appUserService.loadUserByUsername(oktaId).getCart();
+        Set<CartItem> list = appUserService.loadUserByUsername(username).getCart();
         Stripe.apiKey = secretKey;
         for(CartItem item : list){
             Product product = Product.retrieve(item.getProductId());
