@@ -1,7 +1,8 @@
 import { Container, Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
 import { Moon, Sun } from "react-bootstrap-icons";
 import { Link, useNavigate } from "react-router-dom";
-import Account from "../auth/Account";
+import { nanoid } from "nanoid";
+import axios from "axios";
 
 export default function NavbarSection(props) {
   const navigate = useNavigate();
@@ -12,6 +13,29 @@ export default function NavbarSection(props) {
   function handleNav(path) {
     navigate(path);
   }
+
+  function logout() {
+    const config = {
+      method: "post",
+      url: "https://themillenniumfalcon.junhechen.com/584final/api/v1/logout",
+      headers: {
+        Authorization: `${sessionStorage.getItem("sessionId")}`,
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        props.clearUserCart();
+        props.updateUserCart();
+        props.toggleUser();
+        sessionStorage.clear();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   return (
     <Navbar
       collapseOnSelect
@@ -44,9 +68,22 @@ export default function NavbarSection(props) {
 
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link>
-              <Account />
-            </Nav.Link>
+            {props.isUser ? (
+              <div className="d-flex">
+                <Navbar.Brand>
+                  Hello{" "}
+                  {sessionStorage.getItem("displayName").replace(/['"]+/g, "")}
+                </Navbar.Brand>
+                <Nav.Link onClick={() => logout()}>Sign Out</Nav.Link>
+              </div>
+            ) : (
+              <Nav.Link
+                onClick={() => handleNav("/comp584_final_project/login")}
+              >
+                Sign In
+              </Nav.Link>
+            )}
+
             <NavDropdown
               title="Product Catagories"
               id="collasible-nav-dropdown"
@@ -92,7 +129,7 @@ export default function NavbarSection(props) {
                 props.cartItems.map((item) => {
                   return (
                     <div
-                      key={item.id}
+                      key={nanoid()}
                       className="d-flex justify-content-between align-items-center"
                       style={{ minWidth: "350px" }}
                     >
@@ -136,36 +173,17 @@ export default function NavbarSection(props) {
               )}
               <NavDropdown.Divider />
               <div className="w-100 d-flex">
-                {props.cartItems.length === 0 ? (
-                  <Button
-                    variant="dark"
-                    disabled
-                    size="large"
-                    className="w-75 mx-auto"
-                  >
-                    Checkout
-                  </Button>
-                ) : (
-                  // <Link
-                  //   to={"/comp584_final_project/checkout"}
-                  //   className="w-100 d-flex justify-content-center"
-                  //   style={{
-                  //     textDecoration: "none",
-                  //     color: "inherit",
-                  //   }}
-                  // >
-                  <Button
-                    variant="dark"
-                    size="large"
-                    className="w-75 mx-auto"
-                    onClick={() => {
-                      handleClick("/comp584_final_project/checkout");
-                    }}
-                  >
-                    Checkout
-                  </Button>
-                  //  </Link>
-                )}
+                <Button
+                  variant="dark"
+                  size="large"
+                  className="w-75 mx-auto"
+                  onClick={() => {
+                    handleClick("/comp584_final_project/checkout");
+                  }}
+                  disabled={props.cartItems.length === 0}
+                >
+                  Checkout
+                </Button>
               </div>
             </NavDropdown>
             <button

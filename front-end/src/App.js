@@ -1,34 +1,28 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import Products from "./pages/Products";
 import { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import Checkout from "./pages/Checkout";
-import config from "../src/auth/config";
-import { OktaAuth, toRelativeUrl } from "@okta/okta-auth-js";
-import { LoginCallback, Security } from "@okta/okta-react";
-import Login from "../src/auth/Login";
 import axios from "axios";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import { CookiesProvider } from "react-cookie";
+import { useCookies } from "react-cookie";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
-const oktaAuth = new OktaAuth(config.oidc);
 
 function App() {
+  const [cookies, setCookie] = useCookies(["cartItems"]);
+
   const [isLightMode, setIsLightMode] = useState(true);
   const [allProducts, setAllProducts] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [clientSecret, setClientSecret] = useState("");
-
-  const history = useNavigate();
-  const customAuthHandler = () => {
-    history.push("/login");
-  };
-  const restoreOriginalUri = async (_oktaAuth, originalUri) => {
-    history.replace(toRelativeUrl(originalUri || "", window.location.origin));
-  };
+  const [isUser, setIsUser] = useState(false);
 
   const appearance = {
     theme: "stripe",
@@ -38,14 +32,71 @@ function App() {
     appearance,
   };
 
+  function toggleUser() {
+    setIsUser((prev) => !prev);
+  }
+
   function toggleMode() {
     setIsLightMode((prev) => !prev);
+  }
+
+  function clearUserCart() {
+    var data = JSON.stringify({
+      username: sessionStorage.getItem("userName").replace(/['"]+/g, ""),
+      stripeId: "lol",
+    });
+    var config = {
+      method: "post",
+      url: "https://themillenniumfalcon.junhechen.com/584final/api/v1/cart/clear",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  function updateUserCart() {
+    let temp = [];
+    cartItems.forEach((item) => {
+      temp.push(item.id);
+    });
+    console.log(temp);
+    var data = JSON.stringify({
+      userName: sessionStorage.getItem("userName").replace(/['"]+/g, ""),
+      stripeIds: temp,
+    });
+
+    var config = {
+      method: "post",
+      url: "https://themillenniumfalcon.junhechen.com/584final/api/v1/cart/updateCart",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   function addToCart(product) {
     let temp = [...cartItems];
     temp.push(product);
     setCartItems(temp);
+    setCookie("cartItems", temp);
   }
 
   function removeItem(product) {
@@ -54,12 +105,12 @@ function App() {
     cartItems.forEach((item) => {
       if (flag === true && item.id === product.id) {
         flag = false;
-        console.log("found");
       } else {
         temp.push(item);
       }
     });
     setCartItems(temp);
+    setCookie("cartItems", temp);
   }
 
   function checkout() {
@@ -96,6 +147,37 @@ function App() {
   }
 
   useEffect(() => {
+    function loadCart() {
+      if (!isUser) {
+        console.log("No user logged in");
+        return;
+      }
+      let temp = [];
+      var config = {
+        method: "post",
+        url: "https://themillenniumfalcon.junhechen.com/584final/api/v1/cart/load",
+        headers: {
+          "Content-Type": "text/plain",
+        },
+        data: sessionStorage.getItem("userName").replace(/['"]+/g, ""),
+      };
+
+      axios(config)
+        .then(function (response) {
+          console.log(JSON.stringify(response.data));
+          response.data.forEach((element) => {
+            temp.push(element);
+          });
+          setCartItems(temp);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    loadCart();
+  }, [isUser]);
+
+  useEffect(() => {
     axios
       .get(
         "https://themillenniumfalcon.junhechen.com/584final/api/v1/stripe/getAllItem"
@@ -112,14 +194,11 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
+    setCartItems(cookies.cartItems === undefined ? [] : cookies.cartItems);
   }, []);
 
   return (
-    <Security
-      oktaAuth={oktaAuth}
-      onAuthRequired={customAuthHandler}
-      restoreOriginalUri={restoreOriginalUri}
-    >
+    <CookiesProvider>
       <Routes>
         <Route
           path="/comp584_final_project"
@@ -131,6 +210,10 @@ function App() {
               cartItems={cartItems}
               removeItem={removeItem}
               checkout={checkout}
+              isUser={isUser}
+              toggleUser={toggleUser}
+              clearUserCart={clearUserCart}
+              updateUserCart={updateUserCart}
             />
           }
         >
@@ -199,17 +282,21 @@ function App() {
                 options={options}
                 clientSecret={clientSecret}
                 stripePromise={stripePromise}
+                cartItems={cartItems}
               />
             }
           />
-          <Route path="/comp584_final_project/login" element={<Login />} />
           <Route
-            path="/comp584_final_project/login/callback"
-            element={LoginCallback}
+            path="/comp584_final_project/login"
+            element={<Login toggleUser={toggleUser} lightMode={isLightMode} />}
+          />
+          <Route
+            path="/comp584_final_project/register"
+            element={<Register lightMode={isLightMode} />}
           />
         </Route>
       </Routes>
-    </Security>
+    </CookiesProvider>
   );
 }
 

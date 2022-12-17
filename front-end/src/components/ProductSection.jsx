@@ -43,6 +43,7 @@ export default function ProductSection(props) {
                   props.addToCart(product);
                 }}
                 className="shadow"
+                variant="dark"
               >
                 <PlusSquare /> Add To Cart
               </Button>

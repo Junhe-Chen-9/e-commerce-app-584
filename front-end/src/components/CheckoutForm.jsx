@@ -60,7 +60,7 @@ export default function CheckoutForm(props) {
       confirmParams: {
         // Make sure to change this to your payment completion page
 
-        return_url: "http://localhost:3000/",
+        return_url: "https://byronurrutia.github.io/comp584_final_project/",
       },
     });
 
@@ -83,7 +83,6 @@ export default function CheckoutForm(props) {
   };
 
   return (
-   
     <form id="payment-form" onSubmit={handleSubmit}>
       <PaymentElement id="payment-element" options={paymentElementOptions} />
       <button disabled={isLoading || !stripe || !elements} id="submit">

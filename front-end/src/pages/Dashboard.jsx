@@ -12,6 +12,10 @@ export default function Dashboard(props) {
         cartItems={props.cartItems}
         removeItem={props.removeItem}
         checkout={props.checkout}
+        isUser={props.isUser}
+        toggleUser={props.toggleUser}
+        clearUserCart={props.clearUserCart}
+        updateUserCart={props.updateUserCart}
       />
       <Outlet />
       <FooterSection lightMode={props.lightMode} />
