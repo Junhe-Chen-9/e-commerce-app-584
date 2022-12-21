@@ -12,11 +12,12 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { CookiesProvider } from "react-cookie";
 import { useCookies } from "react-cookie";
+import OrderTracking from "./pages/OrderTracking";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
 
 function App() {
-  const [cookies, setCookie] = useCookies(["cartItems"]);
+  const [cookies, setCookie] = useCookies(["webData"]);
 
   const [isLightMode, setIsLightMode] = useState(true);
   const [allProducts, setAllProducts] = useState([]);
@@ -25,7 +26,10 @@ function App() {
   const [isUser, setIsUser] = useState(false);
 
   const appearance = {
-    theme: "stripe",
+    theme: isLightMode ? "flat" : "night",
+    variables: {
+      colorPrimary: isLightMode ? "007aff" : "#ffffff",
+    },
   };
   const options = {
     clientSecret,
@@ -38,6 +42,23 @@ function App() {
 
   function toggleMode() {
     setIsLightMode((prev) => !prev);
+    let temp = isLightMode;
+    // console.log(`temp: ${temp}`);
+    // console.log(`state: ${isLightMode}`);
+    if (temp === true) {
+      setCookie("lightMode", "true");
+      // console.log(`first condition`);
+    }
+    if (temp === false) {
+      setCookie("lightMode", "false");
+      // console.log(`second condition`);
+    }
+    // console.log(`cookie: ${cookies.lightMode}`);
+  }
+
+  function resetCart() {
+    setCartItems([]);
+    setCookie("cartItems", []);
   }
 
   function clearUserCart() {
@@ -195,13 +216,22 @@ function App() {
         console.log(err);
       });
     setCartItems(cookies.cartItems === undefined ? [] : cookies.cartItems);
+    console.log(`LightMode: ${cookies.lightMode}`);
+    console.log(cookies.lightMode === "true");
+    setIsLightMode(
+      cookies.lightMode === undefined ? true : cookies.lightMode === "false"
+    );
+    let tempUser = sessionStorage.getItem("userName");
+    if (tempUser) {
+      setIsUser(true);
+    }
   }, []);
 
   return (
     <CookiesProvider>
       <Routes>
         <Route
-          path="/e-commerce-app-584"
+          path="/"
           element={
             <Dashboard
               key={cartItems}
@@ -219,7 +249,7 @@ function App() {
         >
           <Route index element={<Home lightMode={isLightMode} />} />
           <Route
-            path="/e-commerce-app-584/outerwear"
+            path="/outerwear"
             element={
               <Products
                 text="Outerwear"
@@ -230,7 +260,7 @@ function App() {
             }
           />
           <Route
-            path="/e-commerce-app-584/tops"
+            path="/tops"
             element={
               <Products
                 text="Tops"
@@ -241,7 +271,7 @@ function App() {
             }
           />
           <Route
-            path="/e-commerce-app-584/bottoms"
+            path="/bottoms"
             element={
               <Products
                 text="Bottoms"
@@ -252,7 +282,7 @@ function App() {
             }
           />
           <Route
-            path="/e-commerce-app-584/accessories"
+            path="/accessories"
             element={
               <Products
                 text="Accesories"
@@ -263,7 +293,7 @@ function App() {
             }
           />
           <Route
-            path="/e-commerce-app-584/all"
+            path="/all"
             element={
               <Products
                 text="All Products"
@@ -274,7 +304,7 @@ function App() {
             }
           />
           <Route
-            path="/e-commerce-app-584/checkout"
+            path="/checkout"
             element={
               <Checkout
                 lightMode={isLightMode}
@@ -283,17 +313,22 @@ function App() {
                 clientSecret={clientSecret}
                 stripePromise={stripePromise}
                 cartItems={cartItems}
+                resetCart={resetCart}
+                clearUserCart={clearUserCart}
+                updateUserCart={updateUserCart}
               />
             }
           />
           <Route
-            path="/e-commerce-app-584/login"
+            path="/login"
             element={<Login toggleUser={toggleUser} lightMode={isLightMode} />}
           />
           <Route
-            path="/e-commerce-app-584/register"
+            path="/register"
             element={<Register lightMode={isLightMode} />}
           />
+          {/* <Route path="/confirmed/:orderTracking" element={<Confirmed />} /> */}
+          <Route path="/tracking" element={<OrderTracking />} />
         </Route>
       </Routes>
     </CookiesProvider>
