@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.eb51351b.css",
-    "main.js": "/static/js/main.2a209cf2.js",
-    "static/js/787.0b1da828.chunk.js": "/static/js/787.0b1da828.chunk.js",
-    "static/media/hero_background.svg": "/static/media/hero_background.3d2c077321758e06c937.svg",
-    "index.html": "/index.html",
-    "main.eb51351b.css.map": "/static/css/main.eb51351b.css.map",
-    "main.2a209cf2.js.map": "/static/js/main.2a209cf2.js.map",
-    "787.0b1da828.chunk.js.map": "/static/js/787.0b1da828.chunk.js.map"
+    "main.css": "/e-commerce-app-584/static/css/main.163139b7.css",
+    "main.js": "/e-commerce-app-584/static/js/main.d50fc01d.js",
+    "static/js/787.0b1da828.chunk.js": "/e-commerce-app-584/static/js/787.0b1da828.chunk.js",
+    "static/media/hero_background.svg": "/e-commerce-app-584/static/media/hero_background.3d2c077321758e06c937.svg",
+    "index.html": "/e-commerce-app-584/index.html",
+    "main.163139b7.css.map": "/e-commerce-app-584/static/css/main.163139b7.css.map",
+    "main.d50fc01d.js.map": "/e-commerce-app-584/static/js/main.d50fc01d.js.map",
+    "787.0b1da828.chunk.js.map": "/e-commerce-app-584/static/js/787.0b1da828.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.eb51351b.css",
-    "static/js/main.2a209cf2.js"
+    "static/css/main.163139b7.css",
+    "static/js/main.d50fc01d.js"
   ]
 }
