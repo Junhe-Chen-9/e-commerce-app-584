@@ -141,7 +141,7 @@ export default function Register(props) {
             <div className="text-center p-4">
               <h4>
                 Please confirm your account through email and then{" "}
-                <Link to="/login">log in</Link>
+                <Link to="/e-commerce-app-584/login">log in</Link>
               </h4>
             </div>
           )}

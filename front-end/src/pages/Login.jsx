@@ -109,7 +109,7 @@ export default function Login(props) {
               Submit
             </Button>
           </Form>
-          <Link to={"/register"}>Need an account? Sign Up</Link>
+          <Link to={"/e-commerce-app-584/register"}>Need an account? Sign Up</Link>
         </div>
       </Container>
     </Container>

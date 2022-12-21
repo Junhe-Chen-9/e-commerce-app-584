@@ -45,7 +45,7 @@ export default function NavbarSection(props) {
       className="shadow"
     >
       <Container fluid>
-        <Link to={"/"}>
+        <Link to={"/e-commerce-app-584"}>
           <Navbar.Brand>
             <svg
               width="30"
